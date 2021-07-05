@@ -4,10 +4,9 @@ import { theme } from '../../global/styles/theme';
 export const styles = StyleSheet.create({
 	container: {
 		width: '100%',
-		backgroundColor: theme.colors.grass,
-		borderRadius: 10,
 		flexDirection: 'row',
 		position: 'relative',
+		borderRadius: 10,
 	},
 	content: {
 		padding: 20,
@@ -18,7 +17,7 @@ export const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	title: {
-		marginVertical: 10,
+		marginBottom: 10,
 		color: '#fff',
 		fontSize: 26,
 		fontWeight: 'bold',

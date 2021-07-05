@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList, Text, TextInput } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
@@ -15,11 +15,20 @@ import PokeballSvg from '../../assets/patterns/pokeballBackground.svg';
 
 import { styles } from './styles';
 import { theme } from '../../global/styles/theme';
+import { api } from '../../services/api';
+
+interface Pokemons {
+	results: {
+		name: string;
+		url: string;
+	}[];
+}
 
 const Home = () => {
 	const [openFiltersModal, setOpenFiltersModal] = useState(false);
 	const [openSortModal, setOpenSortModal] = useState(false);
 	const [openGenerationsModal, setOpenGenerationsModal] = useState(false);
+	const [pokemons, setPokemons] = useState<Pokemons>({} as Pokemons);
 
 	const handleToggleFiltersModal = () => {
 		setOpenFiltersModal(!openFiltersModal);
@@ -33,22 +42,18 @@ const Home = () => {
 		setOpenGenerationsModal(!openGenerationsModal);
 	};
 
-	const data = {
-		result: [
-			{
-				name: 'bulbasaur',
-				url: 'https://pokeapi.co/api/v2/pokemon/1/',
-			},
-			{
-				name: 'ivysaur',
-				url: 'https://pokeapi.co/api/v2/pokemon/2/',
-			},
-			{
-				name: 'venusaur',
-				url: 'https://pokeapi.co/api/v2/pokemon/3/',
-			},
-		],
+	const getPokemons = async () => {
+		try {
+			const res = await api.get('/pokemon');
+			setPokemons(res.data);
+		} catch (error) {
+			console.log(error);
+		}
 	};
+
+	useEffect(() => {
+		getPokemons();
+	}, []);
 
 	return (
 		<View style={styles.container}>
@@ -90,10 +95,10 @@ const Home = () => {
 			</View>
 
 			<FlatList
-				data={data.result}
+				data={pokemons.results}
 				keyExtractor={(item) => item.name}
 				ItemSeparatorComponent={() => <View style={styles.separator} />}
-				renderItem={({ item }) => <PokemonCard />}
+				renderItem={({ item }) => <PokemonCard data={item} />}
 				style={styles.pokemonCards}
 				contentContainerStyle={{ paddingBottom: 69, paddingTop: 45 }}
 				showsVerticalScrollIndicator={false}

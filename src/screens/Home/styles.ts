@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
 	},
 	inputWrapper: {
 		position: 'relative',
+		marginBottom: 10,
 	},
 	inputSearch: {
 		width: '100%',
