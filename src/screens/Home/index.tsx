@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, FlatList, Text, TextInput } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
+import { Modalize } from 'react-native-modalize';
 
 import Filters from '../Filters';
 import Sort from '../Sort';
@@ -25,22 +26,23 @@ interface Pokemons {
 }
 
 const Home = () => {
-	const [openFiltersModal, setOpenFiltersModal] = useState(false);
-	const [openSortModal, setOpenSortModal] = useState(false);
-	const [openGenerationsModal, setOpenGenerationsModal] = useState(false);
+	const modalizeFiltersRef = useRef<Modalize>(null);
+	const modalizeSortRef = useRef<Modalize>(null);
+	const modalizeGenerationsRef = useRef<Modalize>(null);
+
 	const [pokemons, setPokemons] = useState<Pokemons>({} as Pokemons);
 	const [search, setSearch] = useState('');
 
-	const handleToggleFiltersModal = () => {
-		setOpenFiltersModal(!openFiltersModal);
+	const handleOpenFiltersModal = () => {
+		modalizeFiltersRef.current?.open();
 	};
 
-	const handleToggleSortModal = () => {
-		setOpenSortModal(!openSortModal);
+	const handleOpenSortModal = () => {
+		modalizeSortRef.current?.open();
 	};
 
-	const handleToggleGenerationsModal = () => {
-		setOpenGenerationsModal(!openGenerationsModal);
+	const handleOpenGenerationsModal = () => {
+		modalizeGenerationsRef.current?.open();
 	};
 
 	const getPokemons = async () => {
@@ -81,18 +83,15 @@ const Home = () => {
 		<View style={styles.container}>
 			<PokeballSvg width='125%' height='100%' style={styles.background} />
 			<View style={styles.menu}>
-				<RectButton
-					style={styles.menuButton}
-					onPress={handleToggleFiltersModal}
-				>
+				<RectButton style={styles.menuButton} onPress={handleOpenFiltersModal}>
 					<GenerationSvg width={25} height={25} fill='#17171B' />
 				</RectButton>
-				<RectButton style={styles.menuButton} onPress={handleToggleSortModal}>
+				<RectButton style={styles.menuButton} onPress={handleOpenSortModal}>
 					<SortSvg width={25} height={25} fill='#17171B' />
 				</RectButton>
 				<RectButton
 					style={styles.menuButton}
-					onPress={handleToggleGenerationsModal}
+					onPress={handleOpenGenerationsModal}
 				>
 					<FilterSvg width={25} height={25} fill='#17171B' />
 				</RectButton>
@@ -128,23 +127,17 @@ const Home = () => {
 				showsVerticalScrollIndicator={false}
 			/>
 
-			<ModalView
-				closeModal={handleToggleFiltersModal}
-				visible={openFiltersModal}
-			>
+			<Modalize snapPoint={250} ref={modalizeFiltersRef}>
 				<Filters />
-			</ModalView>
+			</Modalize>
 
-			<ModalView closeModal={handleToggleSortModal} visible={openSortModal}>
+			<Modalize snapPoint={250} ref={modalizeSortRef}>
 				<Sort />
-			</ModalView>
+			</Modalize>
 
-			<ModalView
-				closeModal={handleToggleGenerationsModal}
-				visible={openGenerationsModal}
-			>
+			<Modalize snapPoint={250} ref={modalizeGenerationsRef}>
 				<Generations />
-			</ModalView>
+			</Modalize>
 		</View>
 	);
 };

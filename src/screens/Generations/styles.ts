@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 40,
-		marginTop: 20,
+		marginTop: 40,
 	},
 	header: {},
 	title: {
@@ -21,5 +21,8 @@ export const styles = StyleSheet.create({
 	},
 	generationsWrapper: {
 		paddingBottom: 20,
+		flexWrap: 'wrap',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 	},
 });

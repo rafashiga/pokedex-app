@@ -15,15 +15,11 @@ const Generations = () => {
 					Use search for generations to explore your Pokémon!
 				</Text>
 			</View>
-			<FlatList
-				data={generations}
-				keyExtractor={(item) => String(item.id)}
-				renderItem={({ item }) => <Generation data={item} />}
-				contentContainerStyle={styles.generationsWrapper}
-				columnWrapperStyle={{ justifyContent: 'space-between' }}
-				numColumns={2}
-				showsVerticalScrollIndicator={false}
-			/>
+			<View style={styles.generationsWrapper}>
+				{generations.map((item) => (
+					<Generation data={item} key={item.id} />
+				))}
+			</View>
 		</View>
 	);
 };

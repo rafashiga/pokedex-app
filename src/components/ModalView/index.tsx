@@ -1,33 +1,28 @@
-import React from 'react';
-import {
-	Modal,
-	ModalProps,
-	View,
-	TouchableWithoutFeedback,
-} from 'react-native';
+import React, { useRef } from 'react';
+import { View, TouchableWithoutFeedback } from 'react-native';
+import { Modalize, ModalizeProps } from 'react-native-modalize';
 
 import { styles } from './styles';
 
-interface ModalViewProps extends ModalProps {
+interface ModalViewProps extends ModalizeProps {
 	children: React.ReactNode;
 	closeModal: () => void;
+	ref: any;
 }
 
 export const ModalView = ({
 	children,
 	closeModal,
+	ref,
 	...rest
 }: ModalViewProps) => {
 	return (
-		<Modal transparent statusBarTranslucent animationType='slide' {...rest}>
-			<TouchableWithoutFeedback onPress={closeModal}>
-				<View style={styles.overlay}>
-					<View style={styles.container}>
-						<View style={styles.bar} />
-						{children}
-					</View>
-				</View>
-			</TouchableWithoutFeedback>
-		</Modal>
+		<Modalize snapPoint={500} ref={ref} {...rest}>
+			{/* <TouchableWithoutFeedback onPress={closeModal}> */}
+			{/* <View style={styles.overlay}> */}
+			<View style={styles.container}>{children}</View>
+			{/* </View> */}
+			{/* </TouchableWithoutFeedback> */}
+		</Modalize>
 	);
 };

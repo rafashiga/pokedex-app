@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text, Image, ImageProps } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 
-import Pokemon01 from '../../assets/generations/generation1/001.png';
-import Pokemon02 from '../../assets/generations/generation1/004.png';
-import Pokemon03 from '../../assets/generations/generation1/007.png';
 import PatternSvg from '../../assets/patterns/pattern.svg';
 import PokeballSvg from '../../assets/patterns/pokeballGeneration.svg';
 
@@ -23,7 +21,7 @@ interface GenerationProps {
 
 export const Generation = ({ data }: GenerationProps) => {
 	return (
-		<View style={styles.container}>
+		<RectButton style={styles.container}>
 			<PatternSvg style={styles.pattern} />
 			<PokeballSvg style={styles.pokeballBackground} />
 			<View style={styles.pokemonsWrapper}>
@@ -36,6 +34,6 @@ export const Generation = ({ data }: GenerationProps) => {
 				))}
 			</View>
 			<Text style={styles.title}>{data.name}</Text>
-		</View>
+		</RectButton>
 	);
 };

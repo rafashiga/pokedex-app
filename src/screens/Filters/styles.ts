@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 40,
-		marginTop: 20,
+		marginTop: 40,
 	},
 	header: {
 		marginBottom: 0,
@@ -26,5 +26,6 @@ export const styles = StyleSheet.create({
 	},
 	buttonContainer: {
 		flexDirection: 'row',
+		marginBottom: 80,
 	},
 });

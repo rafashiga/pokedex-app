@@ -15,10 +15,7 @@ const Filters = () => {
 				</Text>
 			</View>
 
-			<ScrollView
-				contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
-				showsVerticalScrollIndicator={false}
-			>
+			<View>
 				<Button title='Smallest number first' />
 				<View style={{ padding: 10 }} />
 
@@ -29,7 +26,7 @@ const Filters = () => {
 				<View style={{ padding: 10 }} />
 
 				<Button title='Z-A' />
-			</ScrollView>
+			</View>
 		</View>
 	);
 };
