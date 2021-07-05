@@ -1,4 +1,4 @@
-export const theme = {
+export const theme: { [key: string]: any } = {
 	colors: {
 		gray600: 'rgba(23, 23, 27, 0.6)',
 		gray500: '#747476',
@@ -27,7 +27,7 @@ export const theme = {
 			bug: '#8CB230',
 			dark: '#58575F',
 			dragon: '#0F6AC0',
-			eletric: '#EED535',
+			electric: '#EED535',
 			fairy: '#ED6EC7',
 			fighting: '#D04164',
 			fire: '#FD7D24',
@@ -47,7 +47,7 @@ export const theme = {
 				bug: '#8BD674',
 				dark: '#6F6E78',
 				dragon: '#7383B9',
-				eletric: '#F2CB55',
+				electric: '#F2CB55',
 				fairy: '#EBA8C3',
 				fighting: '#EB4971',
 				fire: '#FFA756',

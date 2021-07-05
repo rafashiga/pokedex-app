@@ -29,6 +29,7 @@ const Home = () => {
 	const [openSortModal, setOpenSortModal] = useState(false);
 	const [openGenerationsModal, setOpenGenerationsModal] = useState(false);
 	const [pokemons, setPokemons] = useState<Pokemons>({} as Pokemons);
+	const [search, setSearch] = useState('');
 
 	const handleToggleFiltersModal = () => {
 		setOpenFiltersModal(!openFiltersModal);
@@ -46,6 +47,27 @@ const Home = () => {
 		try {
 			const res = await api.get('/pokemon');
 			setPokemons(res.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const searchPokemon = async () => {
+		console.log('aaa ' + api.defaults.baseURL + '/pokemon/' + search);
+
+		try {
+			const res = await api.get('/pokemon/' + search);
+
+			const pokemonData: Pokemons = {
+				results: [
+					{
+						name: res.data.name,
+						url: `${api.defaults.baseURL}/pokemon/${res.data.id}`,
+					},
+				],
+			};
+
+			setPokemons(pokemonData);
 		} catch (error) {
 			console.log(error);
 		}
@@ -85,6 +107,8 @@ const Home = () => {
 				<TextInput
 					style={styles.inputSearch}
 					placeholder='What Pokémon are you looking for?'
+					onChangeText={setSearch}
+					onSubmitEditing={searchPokemon}
 				/>
 				<SearchSvg
 					width={20}

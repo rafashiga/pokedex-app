@@ -1,7 +1,7 @@
 import BugSvg from '../assets/types/bug.svg';
 import DarkSvg from '../assets/types/dark.svg';
 import DragonSvg from '../assets/types/dragon.svg';
-import EletricSvg from '../assets/types/electric.svg';
+import ElectricSvg from '../assets/types/electric.svg';
 import FairySvg from '../assets/types/fairy.svg';
 import FightingSvg from '../assets/types/fighting.svg';
 import FireSvg from '../assets/types/fire.svg';
@@ -40,8 +40,8 @@ export const types = [
 	{
 		id: '4',
 		name: 'eletric',
-		icon: EletricSvg,
-		color: theme.colors.types.eletric,
+		icon: ElectricSvg,
+		color: theme.colors.types.electric,
 	},
 	{
 		id: '5',
@@ -101,7 +101,7 @@ export const types = [
 		id: '14',
 		name: 'poison',
 		icon: PoisonSvg,
-		color: theme.colors.types.posion,
+		color: theme.colors.types.poison,
 	},
 	{
 		id: '15',

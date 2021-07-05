@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
+import axios from 'axios';
 
 import { Badge } from '../Badge';
 
@@ -40,8 +41,7 @@ export const PokemonCard = ({ data }: PokemonCardProps) => {
 
 	const getPokemon = async () => {
 		try {
-			api.defaults.baseURL = data.url;
-			const res = await api.get('');
+			const res = await axios.get(data.url);
 			setPokemon(res.data);
 		} catch (error) {
 			console.log(error);
@@ -61,9 +61,9 @@ export const PokemonCard = ({ data }: PokemonCardProps) => {
 					style={[
 						{
 							backgroundColor:
-								theme.colors.types.background[
-									pokemon.types?.length > 0 && pokemon.types[0].type.name
-								],
+								pokemon.types?.length > 0
+									? theme.colors.types.background[pokemon.types[0].type.name]
+									: '#fff',
 						},
 						styles.container,
 					]}
