@@ -6,7 +6,15 @@ import { generations } from '../../utils/generations';
 
 import { styles } from './styles';
 
-const Generations = () => {
+interface GenerationsProps {
+	generationSelected: number;
+	setGeneration: (generationSelected: number) => void;
+}
+
+const Generations = ({
+	generationSelected,
+	setGeneration,
+}: GenerationsProps) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -17,7 +25,12 @@ const Generations = () => {
 			</View>
 			<View style={styles.generationsWrapper}>
 				{generations.map((item) => (
-					<Generation data={item} key={item.id} />
+					<Generation
+						data={item}
+						key={item.id}
+						generationSelected={item.id === generationSelected}
+						onPress={() => setGeneration(item.id)}
+					/>
 				))}
 			</View>
 		</View>

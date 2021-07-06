@@ -16,9 +16,20 @@ interface IFilter {
 interface FiltersOptionsProps {
 	title: string;
 	data?: IFilter[];
+	itemsSelected?: string[];
+	setFilters: (name: string) => void;
 }
 
-export const FiltersOptions = ({ title, data }: FiltersOptionsProps) => {
+export const FiltersOptions = ({
+	title,
+	data,
+	itemsSelected,
+	setFilters,
+}: FiltersOptionsProps) => {
+	const handleItemSelected = (name: string) => {
+		return !!itemsSelected?.find((item) => item === name);
+	};
+
 	return (
 		<>
 			<Text style={styles.filterTitle}>{title}</Text>
@@ -35,11 +46,12 @@ export const FiltersOptions = ({ title, data }: FiltersOptionsProps) => {
 							style={[
 								styles.filterButton,
 								{
-									backgroundColor: color,
+									backgroundColor: handleItemSelected(name) ? color : '#fff',
 								},
 							]}
+							onPress={() => setFilters(name)}
 						>
-							<Icon fill={'#fff'} />
+							<Icon fill={handleItemSelected(name) ? '#fff' : color} />
 						</RectButton>
 					))}
 			</ScrollView>

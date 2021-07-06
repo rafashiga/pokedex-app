@@ -3,7 +3,6 @@ import { theme } from '../../global/styles/theme';
 
 export const styles = StyleSheet.create({
 	container: {
-		backgroundColor: theme.colors.red,
 		borderRadius: 10,
 		height: 129,
 		alignItems: 'center',
@@ -31,7 +30,6 @@ export const styles = StyleSheet.create({
 		height: 45,
 	},
 	title: {
-		color: theme.colors.gray500,
 		fontSize: 16,
 		marginBottom: 20,
 	},

@@ -8,7 +8,27 @@ import { types } from '../../utils/types';
 
 import { styles } from './styles';
 
-const Filters = () => {
+interface FiltersProps {
+	typesSelected: string[];
+	setTypes: (name: string) => void;
+	weaknessesSelected: string[];
+	setWeaknesses: (name: string) => void;
+	heightsSelected: string[];
+	setHeights: (name: string) => void;
+	weightSelected: string[];
+	setWeights: (name: string) => void;
+}
+
+const Filters = ({
+	typesSelected,
+	setTypes,
+	weaknessesSelected,
+	setWeaknesses,
+	heightsSelected,
+	setHeights,
+	weightSelected,
+	setWeights,
+}: FiltersProps) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -18,21 +38,38 @@ const Filters = () => {
 					more!
 				</Text>
 			</View>
-			{/* <ScrollView
-				contentContainerStyle={{ paddingTop: 20, paddingBottom: 60 }}
-				showsVerticalScrollIndicator={false}
-			> */}
+
 			<View style={styles.optionsContainer}>
-				<FiltersOptions title='Types' data={types} />
+				<FiltersOptions
+					setFilters={setTypes}
+					title='Types'
+					data={types}
+					itemsSelected={typesSelected}
+				/>
 			</View>
 			<View style={styles.optionsContainer}>
-				<FiltersOptions title='Weaknesses' data={types} />
+				<FiltersOptions
+					setFilters={setWeaknesses}
+					title='Weaknesses'
+					data={types}
+					itemsSelected={weaknessesSelected}
+				/>
 			</View>
 			<View style={styles.optionsContainer}>
-				<FiltersOptions title='Heights' data={heights} />
+				<FiltersOptions
+					setFilters={setHeights}
+					title='Heights'
+					data={heights}
+					itemsSelected={heightsSelected}
+				/>
 			</View>
 			<View style={styles.optionsContainer}>
-				<FiltersOptions title='Weights' data={weights} />
+				<FiltersOptions
+					setFilters={setWeights}
+					title='Weights'
+					data={weights}
+					itemsSelected={weightSelected}
+				/>
 			</View>
 
 			<View style={styles.buttonContainer}>
@@ -40,7 +77,6 @@ const Filters = () => {
 				<View style={{ padding: 14 }} />
 				<Button title='Apply' theme='primary' />
 			</View>
-			{/* </ScrollView> */}
 		</View>
 	);
 };

@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, Image, ImageProps } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
+import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 
 import PatternSvg from '../../assets/patterns/pattern.svg';
 import PokeballSvg from '../../assets/patterns/pokeballGeneration.svg';
+import { theme } from '../../global/styles/theme';
 
 import { styles } from './styles';
 
@@ -15,13 +16,28 @@ interface IGeneration {
 	}[];
 }
 
-interface GenerationProps {
+interface GenerationProps extends RectButtonProps {
 	data: IGeneration;
+	generationSelected: boolean;
 }
 
-export const Generation = ({ data }: GenerationProps) => {
+export const Generation = ({
+	data,
+	generationSelected,
+	...rest
+}: GenerationProps) => {
 	return (
-		<RectButton style={styles.container}>
+		<RectButton
+			style={[
+				styles.container,
+				{
+					backgroundColor: generationSelected
+						? theme.colors.red
+						: theme.colors.gray100,
+				},
+			]}
+			{...rest}
+		>
 			<PatternSvg style={styles.pattern} />
 			<PokeballSvg style={styles.pokeballBackground} />
 			<View style={styles.pokemonsWrapper}>
@@ -33,7 +49,16 @@ export const Generation = ({ data }: GenerationProps) => {
 					/>
 				))}
 			</View>
-			<Text style={styles.title}>{data.name}</Text>
+			<Text
+				style={[
+					styles.title,
+					{
+						color: generationSelected ? '#fff' : theme.colors.gray500,
+					},
+				]}
+			>
+				{data.name}
+			</Text>
 		</RectButton>
 	);
 };
