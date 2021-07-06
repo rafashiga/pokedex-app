@@ -1,43 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 
 import { Badge } from '../Badge';
+import { IPokemon } from '../../models/pokemon';
 
 import PokeballSvg from '../../assets/patterns/pokeballCard.svg';
 import PatternSvg from '../../assets/patterns/patternCard.svg';
 
-import { api } from '../../services/api';
 import { styles } from './styles';
 import { theme } from '../../global/styles/theme';
+import { usePokemon } from '../../hooks/pokemon';
 
-interface PokemonCardProps {
+interface PokemonCardProps extends RectButtonProps {
 	data: {
 		name: string;
 		url: string;
 	};
 }
 
-interface IPokemon {
-	id: number;
-	sprites: {
-		other: {
-			'official-artwork': {
-				front_default: string;
-			};
-		};
-	};
-	types: {
-		slot: number;
-		type: {
-			name: string;
-		};
-	}[];
-}
-
-export const PokemonCard = ({ data }: PokemonCardProps) => {
+export const PokemonCard = ({ data, ...rest }: PokemonCardProps) => {
+	const { setPokemonDetail } = usePokemon();
 	const [pokemon, setPokemon] = useState<IPokemon>({} as IPokemon);
 	const [loading, setLoading] = useState(true);
+	const navigation = useNavigation();
 
 	const getPokemon = async () => {
 		try {
@@ -50,6 +38,11 @@ export const PokemonCard = ({ data }: PokemonCardProps) => {
 		}
 	};
 
+	const handleDetailsPage = () => {
+		setPokemonDetail(pokemon);
+		navigation.navigate('PokemonDetails');
+	};
+
 	useEffect(() => {
 		getPokemon();
 	}, []);
@@ -57,7 +50,7 @@ export const PokemonCard = ({ data }: PokemonCardProps) => {
 	return (
 		<>
 			{!loading && (
-				<View
+				<RectButton
 					style={[
 						{
 							backgroundColor:
@@ -67,7 +60,11 @@ export const PokemonCard = ({ data }: PokemonCardProps) => {
 						},
 						styles.container,
 					]}
+					onPress={handleDetailsPage}
+					{...rest}
 				>
+					<PokeballSvg width={160} height={160} style={styles.background} />
+					<PatternSvg style={styles.patternBackground} />
 					<View style={styles.content}>
 						<Text style={styles.id}>#{('00' + pokemon.id).slice(-3)}</Text>
 						<Text style={styles.title}>{data.name}</Text>
@@ -86,9 +83,7 @@ export const PokemonCard = ({ data }: PokemonCardProps) => {
 							style={styles.pokemon}
 						/>
 					)}
-					<PatternSvg style={styles.patternBackground} />
-					<PokeballSvg width={160} height={160} style={styles.background} />
-				</View>
+				</RectButton>
 			)}
 		</>
 	);

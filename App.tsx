@@ -1,12 +1,15 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import Home from './src/screens/Home';
+import { Routes } from './src/routes';
+import { PokemonProvider } from './src/hooks/pokemon';
 
 export default function App() {
 	return (
 		<>
-			<Home />
 			<StatusBar style='auto' />
+			<PokemonProvider>
+				<Routes />
+			</PokemonProvider>
 		</>
 	);
 }
