@@ -3,6 +3,7 @@ import { Text, Image, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 import PokeballSvg from '../../assets/patterns/pokeballEvolution.svg';
+import ArrowSvg from '../../assets/icons/arrow.svg';
 
 import { styles } from './styles';
 
@@ -29,6 +30,11 @@ export const EvolutionChart = ({ pokemonImg }: BaseStatsProps) => {
 				</View>
 				<Text style={styles.id}>#004</Text>
 				<Text style={styles.title}>Charmander</Text>
+			</View>
+
+			<View style={styles.levelWrapper}>
+				<ArrowSvg width={25} height={25} style={{ marginBottom: 5 }} />
+				<Text style={styles.title}>(Level 16)</Text>
 			</View>
 
 			<View>

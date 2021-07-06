@@ -36,4 +36,7 @@ export const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		textAlign: 'center',
 	},
+	levelWrapper: {
+		alignItems: 'center',
+	},
 });
