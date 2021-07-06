@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Badge } from '../Badge';
 
 import PokeballSvg from '../../assets/patterns/pokeballCard.svg';
-import Pokemon from '../../assets/generations/generation1/001.png';
+import PatternSvg from '../../assets/patterns/patternCard.svg';
 
 import { api } from '../../services/api';
 import { styles } from './styles';
@@ -86,7 +86,7 @@ export const PokemonCard = ({ data }: PokemonCardProps) => {
 							style={styles.pokemon}
 						/>
 					)}
-
+					<PatternSvg style={styles.patternBackground} />
 					<PokeballSvg width={160} height={160} style={styles.background} />
 				</View>
 			)}

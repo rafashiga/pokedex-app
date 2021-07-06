@@ -25,6 +25,11 @@ export const styles = StyleSheet.create({
 	badgesWrapper: {
 		flexDirection: 'row',
 	},
+	patternBackground: {
+		position: 'absolute',
+		top: 5,
+		left: 90,
+	},
 	background: {
 		position: 'absolute',
 		top: 0,
