@@ -6,7 +6,7 @@ import { Modalize } from 'react-native-modalize';
 import Filters from '../Filters';
 import Sort from '../Sort';
 import Generations from '../Generations';
-import { PokemonCard, Loading } from '../../components';
+import { PokemonCard, Loading, NotFound } from '../../components';
 
 import FilterSvg from '../../assets/icons/filter.svg';
 import GenerationSvg from '../../assets/icons/generation.svg';
@@ -35,6 +35,7 @@ const Home = () => {
 	const [sort, setSort] = useState('smallest');
 	const [generation, setGeneration] = useState(1);
 	const [loading, setLoading] = useState(false);
+	const [notFound, setNotFound] = useState(false);
 
 	const [types, setTypes] = useState<string[]>([]);
 	const [weaknesses, setWeaknesses] = useState<string[]>([]);
@@ -60,6 +61,7 @@ const Home = () => {
 	const handleGeneration = async (generationSelected: number) => {
 		setGeneration(generationSelected);
 		setLoading(true);
+		setNotFound(false);
 
 		try {
 			const res = await api.get(`/generation/${generationSelected}`);
@@ -71,6 +73,9 @@ const Home = () => {
 			setPokemons(pokemonData);
 		} catch (error) {
 			console.log(error);
+			if (error.response.status === 404) {
+				setNotFound(true);
+			}
 		} finally {
 			setLoading(false);
 		}
@@ -78,12 +83,16 @@ const Home = () => {
 
 	const getPokemons = async () => {
 		setLoading(true);
+		setNotFound(false);
 
 		try {
 			const res = await api.get('/pokemon');
 			setPokemons(res.data);
 		} catch (error) {
 			console.log(error);
+			if (error.response.status === 404) {
+				setNotFound(true);
+			}
 		} finally {
 			setLoading(false);
 		}
@@ -91,6 +100,7 @@ const Home = () => {
 
 	const searchPokemon = async () => {
 		setLoading(true);
+		setNotFound(false);
 
 		try {
 			if (search) {
@@ -110,6 +120,9 @@ const Home = () => {
 			}
 		} catch (error) {
 			console.log(error);
+			if (error.response.status === 404) {
+				setNotFound(true);
+			}
 		} finally {
 			setLoading(false);
 		}
@@ -200,19 +213,23 @@ const Home = () => {
 					fill={theme.colors.gray500}
 				/>
 			</View>
-			{loading ? (
-				<Loading />
-			) : (
-				<FlatList
-					data={pokemons.results}
-					keyExtractor={(item) => item.name}
-					ItemSeparatorComponent={() => <View style={styles.separator} />}
-					renderItem={({ item }) => <PokemonCard data={item} />}
-					style={styles.pokemonCards}
-					contentContainerStyle={{ paddingBottom: 69, paddingTop: 45 }}
-					showsVerticalScrollIndicator={false}
-				/>
-			)}
+
+			{!notFound &&
+				(loading ? (
+					<Loading />
+				) : (
+					<FlatList
+						data={pokemons.results}
+						keyExtractor={(item) => item.name}
+						ItemSeparatorComponent={() => <View style={styles.separator} />}
+						renderItem={({ item }) => <PokemonCard data={item} />}
+						style={styles.pokemonCards}
+						contentContainerStyle={{ paddingBottom: 69, paddingTop: 45 }}
+						showsVerticalScrollIndicator={false}
+					/>
+				))}
+
+			{notFound && <NotFound />}
 
 			<Modalize snapPoint={250} ref={modalizeFiltersRef}>
 				<Filters
@@ -226,11 +243,9 @@ const Home = () => {
 					weightSelected={weights}
 				/>
 			</Modalize>
-
 			<Modalize snapPoint={250} ref={modalizeSortRef}>
 				<Sort setSort={handleSort} sortSelected={sort} />
 			</Modalize>
-
 			<Modalize snapPoint={250} ref={modalizeGenerationsRef}>
 				<Generations
 					generationSelected={generation}

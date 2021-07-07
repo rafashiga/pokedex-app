@@ -7,3 +7,4 @@ export * from './FiltersOptions';
 export * from './PokemonCard';
 export * from './ModalView';
 export * from './Loading';
+export * from './NotFound';
