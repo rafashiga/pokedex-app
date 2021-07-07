@@ -6,7 +6,7 @@ import { Modalize } from 'react-native-modalize';
 import Filters from '../Filters';
 import Sort from '../Sort';
 import Generations from '../Generations';
-import { PokemonCard } from '../../components';
+import { PokemonCard, Loading } from '../../components';
 
 import FilterSvg from '../../assets/icons/filter.svg';
 import GenerationSvg from '../../assets/icons/generation.svg';
@@ -34,6 +34,7 @@ const Home = () => {
 	const [search, setSearch] = useState('');
 	const [sort, setSort] = useState('smallest');
 	const [generation, setGeneration] = useState(1);
+	const [loading, setLoading] = useState(false);
 
 	const [types, setTypes] = useState<string[]>([]);
 	const [weaknesses, setWeaknesses] = useState<string[]>([]);
@@ -58,6 +59,7 @@ const Home = () => {
 
 	const handleGeneration = async (generationSelected: number) => {
 		setGeneration(generationSelected);
+		setLoading(true);
 
 		try {
 			const res = await api.get(`/generation/${generationSelected}`);
@@ -69,19 +71,27 @@ const Home = () => {
 			setPokemons(pokemonData);
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const getPokemons = async () => {
+		setLoading(true);
+
 		try {
 			const res = await api.get('/pokemon');
 			setPokemons(res.data);
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const searchPokemon = async () => {
+		setLoading(true);
+
 		try {
 			if (search) {
 				const res = await api.get('/pokemon/' + search);
@@ -90,7 +100,7 @@ const Home = () => {
 					results: [
 						{
 							name: res.data.name,
-							url: `${api.defaults.baseURL}/pokemon/${res.data.id}`,
+							url: `${api.defaults.baseURL}/pokemon/${res.data.id}/`,
 						},
 					],
 				};
@@ -100,6 +110,8 @@ const Home = () => {
 			}
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -188,16 +200,19 @@ const Home = () => {
 					fill={theme.colors.gray500}
 				/>
 			</View>
-
-			<FlatList
-				data={pokemons.results}
-				keyExtractor={(item) => item.name}
-				ItemSeparatorComponent={() => <View style={styles.separator} />}
-				renderItem={({ item }) => <PokemonCard data={item} />}
-				style={styles.pokemonCards}
-				contentContainerStyle={{ paddingBottom: 69, paddingTop: 45 }}
-				showsVerticalScrollIndicator={false}
-			/>
+			{loading ? (
+				<Loading />
+			) : (
+				<FlatList
+					data={pokemons.results}
+					keyExtractor={(item) => item.name}
+					ItemSeparatorComponent={() => <View style={styles.separator} />}
+					renderItem={({ item }) => <PokemonCard data={item} />}
+					style={styles.pokemonCards}
+					contentContainerStyle={{ paddingBottom: 69, paddingTop: 45 }}
+					showsVerticalScrollIndicator={false}
+				/>
+			)}
 
 			<Modalize snapPoint={250} ref={modalizeFiltersRef}>
 				<Filters
