@@ -82,21 +82,22 @@ const Home = () => {
 	};
 
 	const searchPokemon = async () => {
-		console.log('aaa ' + api.defaults.baseURL + '/pokemon/' + search);
-
 		try {
-			const res = await api.get('/pokemon/' + search);
+			if (search) {
+				const res = await api.get('/pokemon/' + search);
 
-			const pokemonData: Pokemons = {
-				results: [
-					{
-						name: res.data.name,
-						url: `${api.defaults.baseURL}/pokemon/${res.data.id}`,
-					},
-				],
-			};
-
-			setPokemons(pokemonData);
+				const pokemonData: Pokemons = {
+					results: [
+						{
+							name: res.data.name,
+							url: `${api.defaults.baseURL}/pokemon/${res.data.id}`,
+						},
+					],
+				};
+				setPokemons(pokemonData);
+			} else {
+				getPokemons();
+			}
 		} catch (error) {
 			console.log(error);
 		}

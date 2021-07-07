@@ -62,10 +62,10 @@ const PokemonEvolution = () => {
 					pokemon={evolutionChain.chain.species.name}
 					urlPokemon={evolutionChain.chain.species.url}
 					level={
-						evolutionChain.chain.evolves_to[0].evolution_details[0].min_level
+						evolutionChain.chain.evolves_to[0]?.evolution_details[0]?.min_level
 					}
-					evolution={evolutionChain.chain.evolves_to[0].species.name}
-					urlEvolution={evolutionChain.chain.evolves_to[0].species.url}
+					evolution={evolutionChain.chain.evolves_to[0]?.species.name}
+					urlEvolution={evolutionChain.chain.evolves_to[0]?.species.url}
 				/>
 			)}
 
@@ -74,14 +74,14 @@ const PokemonEvolution = () => {
 					pokemon={evolutionChain.chain.evolves_to[0].species.name}
 					urlPokemon={evolutionChain.chain.evolves_to[0].species.url}
 					level={
-						evolutionChain.chain.evolves_to[0].evolves_to[0]
-							.evolution_details[0].min_level
+						evolutionChain.chain.evolves_to[0]?.evolves_to[0]
+							.evolution_details[0]?.min_level
 					}
 					evolution={
-						evolutionChain.chain.evolves_to[0].evolves_to[0].species.name
+						evolutionChain.chain.evolves_to[0]?.evolves_to[0].species.name
 					}
 					urlEvolution={
-						evolutionChain.chain.evolves_to[0].evolves_to[0].species.url
+						evolutionChain.chain.evolves_to[0]?.evolves_to[0].species.url
 					}
 				/>
 			)}

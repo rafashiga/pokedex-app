@@ -31,15 +31,17 @@ export const EvolutionChart = ({
 	const removeString = api.defaults.baseURL + '/pokemon-species/';
 
 	const getId = () => {
-		const idPokemon = urlPokemon.replace(removeString, '').replace('/', '');
-
-		setId(idPokemon);
+		if (urlPokemon) {
+			const idPokemon = urlPokemon.replace(removeString, '').replace('/', '');
+			setId(idPokemon);
+		}
 	};
 
 	const getIdEvolution = () => {
-		const idPokemon = urlEvolution.replace(removeString, '').replace('/', '');
-
-		setIdEvolution(idPokemon);
+		if (urlEvolution) {
+			const idPokemon = urlEvolution.replace(removeString, '').replace('/', '');
+			setIdEvolution(idPokemon);
+		}
 	};
 
 	useEffect(() => {
