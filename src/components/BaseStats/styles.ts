@@ -27,4 +27,9 @@ export const styles = StyleSheet.create({
 		height: 4,
 		borderRadius: 2,
 	},
+	totalMinMax: {
+		fontSize: 12,
+		fontWeight: 'bold',
+		color: theme.colors.black,
+	},
 });

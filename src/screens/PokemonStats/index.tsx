@@ -25,6 +25,12 @@ const PokemonStats = () => {
 		}
 	};
 
+	const getTotalStats = () => {
+		return pokemon.stats.reduce((total, item) => {
+			return item.base_stat + total;
+		}, 0);
+	};
+
 	useEffect(() => {
 		getPokemonSpecies();
 	}, []);
@@ -48,13 +54,60 @@ const PokemonStats = () => {
 				Base Stats
 			</Text>
 
-			<BaseStats label='HP' barWidth='50%' color={color} />
-			<BaseStats label='Attack' barWidth='50%' color={color} />
-			<BaseStats label='Defense' barWidth='50%' color={color} />
-			<BaseStats label='Sp. Atk' barWidth='50%' color={color} />
-			<BaseStats label='Sp. Def' barWidth='50%' color={color} />
-			<BaseStats label='Speed' barWidth='50%' color={color} />
-			<BaseStats label='Total' barWidth='0%' color={color} />
+			<BaseStats
+				label='HP'
+				value={pokemon.stats[0].base_stat}
+				barWidth={pokemon.stats[0].base_stat}
+				min={100}
+				max={200}
+				color={color}
+			/>
+			<BaseStats
+				label='Attack'
+				value={pokemon.stats[1].base_stat}
+				barWidth={pokemon.stats[1].base_stat}
+				min={100}
+				max={200}
+				color={color}
+			/>
+			<BaseStats
+				label='Defense'
+				value={pokemon.stats[2].base_stat}
+				barWidth={pokemon.stats[2].base_stat}
+				min={100}
+				max={200}
+				color={color}
+			/>
+			<BaseStats
+				label='Sp. Atk'
+				value={pokemon.stats[3].base_stat}
+				barWidth={pokemon.stats[3].base_stat}
+				min={100}
+				max={200}
+				color={color}
+			/>
+			<BaseStats
+				label='Sp. Def'
+				value={pokemon.stats[4].base_stat}
+				barWidth={pokemon.stats[4].base_stat}
+				min={100}
+				max={200}
+				color={color}
+			/>
+			<BaseStats
+				label='Speed'
+				value={pokemon.stats[5].base_stat}
+				barWidth={pokemon.stats[5].base_stat}
+				min={100}
+				max={200}
+				color={color}
+			/>
+			<BaseStats
+				label='Total'
+				value={getTotalStats()}
+				barWidth={0}
+				color={color}
+			/>
 
 			<Text style={styles.description}>
 				The ranges shown on the right are for a level 100 Pokémon. Maximum

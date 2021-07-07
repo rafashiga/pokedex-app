@@ -5,28 +5,42 @@ import { styles } from './styles';
 
 interface BaseStatsProps {
 	label: string;
-	barWidth: string;
+	barWidth: number;
 	color: string;
+	value: number;
+	min?: number;
+	max?: number;
 }
 
-export const BaseStats = ({ label, color, barWidth }: BaseStatsProps) => {
+export const BaseStats = ({
+	label,
+	color,
+	barWidth,
+	value,
+	min,
+	max,
+}: BaseStatsProps) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.label}>{label}</Text>
-			<Text style={styles.info}>45</Text>
+			<Text style={styles.info}>{value}</Text>
 			<View style={styles.barWrapper}>
 				<View
 					style={[
 						styles.bar,
 						{
 							backgroundColor: color,
-							width: barWidth,
+							width: String(barWidth) + '%',
 						},
 					]}
 				/>
 			</View>
-			<Text style={styles.info}>45</Text>
-			<Text style={styles.info}>245</Text>
+			<Text style={[styles.info, !min && styles.totalMinMax]}>
+				{min ? min : 'Min'}
+			</Text>
+			<Text style={[styles.info, !max && styles.totalMinMax]}>
+				{max ? max : 'Max'}
+			</Text>
 		</View>
 	);
 };

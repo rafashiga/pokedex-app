@@ -8,13 +8,45 @@ import ArrowSvg from '../../assets/icons/arrow.svg';
 import { IMAGE_URL } from '../../config/env';
 
 import { styles } from './styles';
+import { api } from '../../services/api';
+import { useEffect } from 'react';
 
 interface BaseStatsProps {
-	id: number;
-	pokemon: Chain;
+	pokemon: string;
+	urlPokemon: string;
+	evolution: string;
+	urlEvolution: string;
+	level: number;
 }
 
-export const EvolutionChart = ({ id, pokemon }: BaseStatsProps) => {
+export const EvolutionChart = ({
+	pokemon,
+	urlPokemon,
+	evolution,
+	urlEvolution,
+	level,
+}: BaseStatsProps) => {
+	const [id, setId] = useState('');
+	const [idEvolution, setIdEvolution] = useState('');
+	const removeString = api.defaults.baseURL + '/pokemon-species/';
+
+	const getId = () => {
+		const idPokemon = urlPokemon.replace(removeString, '').replace('/', '');
+
+		setId(idPokemon);
+	};
+
+	const getIdEvolution = () => {
+		const idPokemon = urlEvolution.replace(removeString, '').replace('/', '');
+
+		setIdEvolution(idPokemon);
+	};
+
+	useEffect(() => {
+		getId();
+		getIdEvolution();
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			<View>
@@ -32,19 +64,15 @@ export const EvolutionChart = ({ id, pokemon }: BaseStatsProps) => {
 					/>
 				</View>
 				<Text style={styles.id}>#{('00' + id).slice(-3)}</Text>
-				<Text style={styles.title}>{pokemon?.species?.name}</Text>
+				<Text style={styles.title}>{pokemon}</Text>
 			</View>
 
-			{pokemon?.evolves_to[0] && (
-				<View style={styles.levelWrapper}>
-					<ArrowSvg width={25} height={25} style={{ marginBottom: 5 }} />
-					<Text style={styles.title}>
-						(Level {pokemon?.evolves_to[0].evolution_details[0].min_level})
-					</Text>
-				</View>
-			)}
+			<View style={styles.levelWrapper}>
+				<ArrowSvg width={25} height={25} style={{ marginBottom: 5 }} />
+				{level && <Text style={styles.title}>(Level {level})</Text>}
+			</View>
 
-			{pokemon?.evolves_to[0] && (
+			{evolution && (
 				<View>
 					<View style={styles.pokemonWrapper}>
 						<PokeballSvg
@@ -54,15 +82,13 @@ export const EvolutionChart = ({ id, pokemon }: BaseStatsProps) => {
 						/>
 						<Image
 							source={{
-								uri: `${IMAGE_URL}${id + 1}.png`,
+								uri: `${IMAGE_URL}${idEvolution}.png`,
 							}}
 							style={styles.pokemonImage}
 						/>
 					</View>
-					<Text style={styles.id}>#{('00' + (id + 1)).slice(-3)}</Text>
-					<Text style={styles.title}>
-						{pokemon?.evolves_to[0].species.name}
-					</Text>
+					<Text style={styles.id}>#{('00' + idEvolution).slice(-3)}</Text>
+					<Text style={styles.title}>{evolution}</Text>
 				</View>
 			)}
 		</View>
