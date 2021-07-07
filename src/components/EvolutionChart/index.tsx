@@ -69,10 +69,12 @@ export const EvolutionChart = ({
 				<Text style={styles.title}>{pokemon}</Text>
 			</View>
 
-			<View style={styles.levelWrapper}>
-				<ArrowSvg width={25} height={25} style={{ marginBottom: 5 }} />
-				{level && <Text style={styles.title}>(Level {level})</Text>}
-			</View>
+			{evolution && (
+				<View style={styles.levelWrapper}>
+					<ArrowSvg width={25} height={25} style={{ marginBottom: 5 }} />
+					{level && <Text style={styles.title}>(Level {level})</Text>}
+				</View>
+			)}
 
 			{evolution && (
 				<View>
