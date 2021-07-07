@@ -4,7 +4,7 @@ import { Text, ScrollView } from 'react-native';
 
 import { IEvolutionChain } from '../../models/evolutionChain';
 import { IPokemonSpecies } from '../../models/pokemonSpecies';
-import { EvolutionChart } from '../../components';
+import { EvolutionChart, Loading } from '../../components';
 import { usePokemon } from '../../hooks/pokemon';
 import { api } from '../../services/api';
 
@@ -16,16 +16,20 @@ const PokemonEvolution = () => {
 	const { pokemon } = usePokemon();
 	const [pokemonSpecies, setPokemonSpecies] = useState({} as IPokemonSpecies);
 	const [evolutionChain, setEvolutionChain] = useState({} as IEvolutionChain);
+	const [loading, setLoading] = useState(false);
 
 	const color = theme.colors.types[pokemon.types[0].type.name];
 
 	const getPokemonSpecies = async () => {
+		setLoading(true);
 		try {
 			const res = await api.get(`/pokemon-species/${pokemon.id}`);
 			setPokemonSpecies(res.data);
 			getEvolutionChain(res.data.evolution_chain.url);
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -57,7 +61,9 @@ const PokemonEvolution = () => {
 				Evolution Chart
 			</Text>
 
-			{!!evolutionChain?.chain && (
+			{loading && <Loading />}
+
+			{!loading && !!evolutionChain?.chain && (
 				<EvolutionChart
 					pokemon={evolutionChain.chain.species.name}
 					urlPokemon={evolutionChain.chain.species.url}
@@ -69,7 +75,7 @@ const PokemonEvolution = () => {
 				/>
 			)}
 
-			{!!evolutionChain?.chain?.evolves_to[0]?.evolves_to[0] && (
+			{!loading && !!evolutionChain?.chain?.evolves_to[0]?.evolves_to[0] && (
 				<EvolutionChart
 					pokemon={evolutionChain.chain.evolves_to[0].species.name}
 					urlPokemon={evolutionChain.chain.evolves_to[0].species.url}
