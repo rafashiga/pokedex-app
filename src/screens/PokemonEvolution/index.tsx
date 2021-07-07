@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Text, ScrollView } from 'react-native';
 
-import { IPokemonSpecies } from '../../models/pokemonSpecies';
+import { IEvolutionChain } from '../../models/evolutionChain';
 import { EvolutionChart } from '../../components';
 import { usePokemon } from '../../hooks/pokemon';
 import { api } from '../../services/api';
@@ -12,21 +12,22 @@ import { styles } from './styles';
 
 const PokemonEvolution = () => {
 	const { pokemon } = usePokemon();
-	const [pokemonSpecies, setPokemonSpecies] = useState({} as IPokemonSpecies);
+	const [evolutionChain, setEvolutionChain] = useState({} as IEvolutionChain);
 
 	const color = theme.colors.types[pokemon.types[0].type.name];
 
-	const getPokemonSpecies = async () => {
+	const getEvolutionChain = async () => {
 		try {
-			const res = await api.get(`/pokemon-species/${pokemon.id}`);
-			setPokemonSpecies(res.data);
+			const res = await api.get(`/evolution-chain/${pokemon.id}`);
+			console.log(evolutionChain);
+			setEvolutionChain(res.data);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
 	useEffect(() => {
-		getPokemonSpecies();
+		getEvolutionChain();
 	}, []);
 
 	return (
@@ -47,9 +48,10 @@ const PokemonEvolution = () => {
 			>
 				Evolution Chart
 			</Text>
-			<EvolutionChart
-				pokemonImg={pokemon.sprites?.other['official-artwork'].front_default}
-			/>
+
+			{evolutionChain && (
+				<EvolutionChart id={pokemon.id} pokemon={evolutionChain.chain} />
+			)}
 		</ScrollView>
 	);
 };
