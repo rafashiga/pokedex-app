@@ -79,7 +79,7 @@ const PokemonAbout = () => {
 			</View>
 			<View style={styles.infoWrapper}>
 				<Text style={styles.label}>Weaknesses</Text>
-				<Text style={styles.info}>{pokemon.weight}kg</Text>
+				<Text style={styles.info}>-</Text>
 			</View>
 
 			<Text
