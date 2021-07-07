@@ -13,6 +13,7 @@ import PatternSvg from '../../assets/patterns/patternCard.svg';
 import { styles } from './styles';
 import { theme } from '../../global/styles/theme';
 import { usePokemon } from '../../hooks/pokemon';
+import { api } from '../../services/api';
 
 interface PokemonCardProps extends RectButtonProps {
 	data: {
@@ -29,7 +30,9 @@ export const PokemonCard = ({ data, ...rest }: PokemonCardProps) => {
 
 	const getPokemon = async () => {
 		try {
-			const res = await axios.get(data.url);
+			const urlSplit = data.url.split('/');
+			const id = urlSplit[urlSplit.length - 2];
+			const res = await api.get(`/pokemon/${id}`);
 			setPokemon(res.data);
 		} catch (error) {
 			console.log(error);

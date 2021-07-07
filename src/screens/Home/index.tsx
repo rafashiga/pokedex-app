@@ -63,7 +63,7 @@ const Home = () => {
 			const res = await api.get(`/generation/${generationSelected}`);
 
 			const pokemonData = {
-				results: res.data.pokemon_species,
+				results: res.data.pokemon_species.slice(0, 20),
 			};
 
 			setPokemons(pokemonData);
