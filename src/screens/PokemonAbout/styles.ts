@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
 		fontSize: 16,
 		color: theme.colors.gray500,
 		lineHeight: 19,
+		textAlign: 'justify',
 	},
 	infoWrapper: {
 		flexDirection: 'row',
