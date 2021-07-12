@@ -53,4 +53,7 @@ export const styles = StyleSheet.create({
 	separator: {
 		marginTop: 30,
 	},
+	loadingInfiniteScroll: {
+		marginTop: 10,
+	},
 });

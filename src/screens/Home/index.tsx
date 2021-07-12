@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, FlatList, Text, TextInput } from 'react-native';
+import {
+	View,
+	FlatList,
+	Text,
+	TextInput,
+	ActivityIndicator,
+} from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 
@@ -32,8 +38,10 @@ const Home = () => {
 
 	const [pokemons, setPokemons] = useState<Pokemons>({} as Pokemons);
 	const [search, setSearch] = useState('');
+	const [loadingInfiniteScroll, setLoadingInfiniteScroll] = useState(false);
+	const [offset, setOffset] = useState(20);
 	const [sort, setSort] = useState('smallest');
-	const [generation, setGeneration] = useState(1);
+	const [generation, setGeneration] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const [notFound, setNotFound] = useState(false);
 
@@ -62,6 +70,8 @@ const Home = () => {
 		setGeneration(generationSelected);
 		setLoading(true);
 		setNotFound(false);
+		setSearch('');
+		setOffset(20);
 
 		try {
 			const res = await api.get(`/generation/${generationSelected}`);
@@ -84,6 +94,7 @@ const Home = () => {
 	const getPokemons = async () => {
 		setLoading(true);
 		setNotFound(false);
+		setGeneration(0);
 
 		try {
 			const res = await api.get('/pokemon');
@@ -98,9 +109,46 @@ const Home = () => {
 		}
 	};
 
+	const loadPokemons = async () => {
+		if (search || generation) return;
+
+		setLoadingInfiniteScroll(true);
+		try {
+			const res = await api.get(`/pokemon?offset=${offset}&limit=20`);
+
+			const newData = {
+				results: [...pokemons.results, ...res.data.results],
+			};
+
+			setPokemons(newData);
+			setOffset((oldState) => oldState + 20);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setLoadingInfiniteScroll(false);
+		}
+	};
+
+	const renderLoadingFooter = () => {
+		if (!loadingInfiniteScroll) return null;
+
+		return (
+			<View style={styles.loadingInfiniteScroll}>
+				<ActivityIndicator size='large' color={theme.colors.red} />
+			</View>
+		);
+	};
+
+	const handleSetSearch = (text: string) => {
+		setSearch(text);
+		console.log(text);
+		if (!text) getPokemons();
+	};
+
 	const searchPokemon = async () => {
 		setLoading(true);
 		setNotFound(false);
+		setOffset(20);
 
 		try {
 			if (search) {
@@ -203,7 +251,8 @@ const Home = () => {
 				<TextInput
 					style={styles.inputSearch}
 					placeholder='What Pokémon are you looking for?'
-					onChangeText={setSearch}
+					value={search}
+					onChangeText={(text) => handleSetSearch(text)}
 					onSubmitEditing={searchPokemon}
 				/>
 				<SearchSvg
@@ -226,6 +275,9 @@ const Home = () => {
 						style={styles.pokemonCards}
 						contentContainerStyle={{ paddingBottom: 69, paddingTop: 45 }}
 						showsVerticalScrollIndicator={false}
+						onEndReached={loadPokemons}
+						onEndReachedThreshold={0.1}
+						ListFooterComponent={renderLoadingFooter}
 					/>
 				))}
 

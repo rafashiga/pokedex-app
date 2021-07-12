@@ -21,7 +21,6 @@ const PokemonAbout = () => {
 		try {
 			const res = await api.get(`/pokemon-species/${pokemon.id}`);
 			setPokemonSpecies(res.data);
-			console.log(res.data);
 		} catch (error) {
 			console.log(error);
 		} finally {
