@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Text, Image, View } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
+import { useNavigation, StackActions } from '@react-navigation/native';
 
 import PokeballSvg from '../../assets/patterns/pokeballEvolution.svg';
-import { Chain } from '../../models/evolutionChain';
 import ArrowSvg from '../../assets/icons/arrow.svg';
 
 import { IMAGE_URL } from '../../config/env';
@@ -11,7 +12,7 @@ import { styles } from './styles';
 import { api } from '../../services/api';
 import { useEffect } from 'react';
 
-interface BaseStatsProps {
+interface EvolutionChartProps {
 	pokemon: string;
 	urlPokemon: string;
 	evolution: string;
@@ -25,7 +26,9 @@ export const EvolutionChart = ({
 	evolution,
 	urlEvolution,
 	level,
-}: BaseStatsProps) => {
+}: EvolutionChartProps) => {
+	const navigation = useNavigation();
+
 	const [id, setId] = useState('');
 	const [idEvolution, setIdEvolution] = useState('');
 	const removeString = api.defaults.baseURL + '/pokemon-species/';
@@ -44,6 +47,14 @@ export const EvolutionChart = ({
 		}
 	};
 
+	const handlePokemonDetail = (pokemonId: string) => {
+		navigation.dispatch(
+			StackActions.replace('PokemonDetails', {
+				pokemonId,
+			})
+		);
+	};
+
 	useEffect(() => {
 		getId();
 		getIdEvolution();
@@ -51,7 +62,7 @@ export const EvolutionChart = ({
 
 	return (
 		<View style={styles.container}>
-			<View>
+			<RectButton onPress={() => handlePokemonDetail(id)}>
 				<View style={styles.pokemonWrapper}>
 					<PokeballSvg
 						width={100}
@@ -67,7 +78,7 @@ export const EvolutionChart = ({
 				</View>
 				<Text style={styles.id}>#{('00' + id).slice(-3)}</Text>
 				<Text style={styles.title}>{pokemon}</Text>
-			</View>
+			</RectButton>
 
 			{evolution && (
 				<View style={styles.levelWrapper}>
@@ -77,7 +88,7 @@ export const EvolutionChart = ({
 			)}
 
 			{evolution && (
-				<View>
+				<RectButton onPress={() => handlePokemonDetail(idEvolution)}>
 					<View style={styles.pokemonWrapper}>
 						<PokeballSvg
 							width={100}
@@ -93,7 +104,7 @@ export const EvolutionChart = ({
 					</View>
 					<Text style={styles.id}>#{('00' + idEvolution).slice(-3)}</Text>
 					<Text style={styles.title}>{evolution}</Text>
-				</View>
+				</RectButton>
 			)}
 		</View>
 	);

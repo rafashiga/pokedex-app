@@ -43,7 +43,9 @@ export const PokemonCard = ({ data, ...rest }: PokemonCardProps) => {
 
 	const handleDetailsPage = () => {
 		setPokemonDetail(pokemon);
-		navigation.navigate('PokemonDetails');
+		navigation.navigate('PokemonDetails', {
+			pokemonId: null,
+		});
 	};
 
 	useEffect(() => {
