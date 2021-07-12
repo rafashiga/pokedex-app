@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Text, ScrollView, View } from 'react-native';
+import { types } from '../../utils/types';
 
 import { IPokemonSpecies } from '../../models/pokemonSpecies';
 import { BaseStats } from '../../components';
@@ -128,6 +129,24 @@ const PokemonStats = () => {
 			<Text style={styles.typeInfo}>
 				The effectiveness of each type on {pokemon.name}.
 			</Text>
+			<View style={styles.typeContainer}>
+				{types.map(({ id, icon: Icon, color }) => (
+					<View style={styles.typeContent}>
+						<View
+							key={id}
+							style={[
+								styles.iconTypeWrapper,
+								{
+									backgroundColor: color,
+								},
+							]}
+						>
+							<Icon width={15} height={15} fill={'#fff'} />
+						</View>
+						<Text style={styles.typeText}>1/4</Text>
+					</View>
+				))}
+			</View>
 		</ScrollView>
 	);
 };

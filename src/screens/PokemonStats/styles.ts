@@ -48,5 +48,29 @@ export const styles = StyleSheet.create({
 		fontSize: 16,
 		color: theme.colors.gray500,
 		lineHeight: 19,
+		marginBottom: 20,
+	},
+	typeContainer: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'space-between',
+	},
+	typeContent: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginBottom: 15,
+	},
+	iconTypeWrapper: {
+		width: 25,
+		height: 25,
+		backgroundColor: '#0f0',
+		alignItems: 'center',
+		justifyContent: 'center',
+		margin: 5,
+		borderRadius: 3,
+	},
+	typeText: {
+		fontSize: 16,
+		color: theme.colors.gray500,
 	},
 });
