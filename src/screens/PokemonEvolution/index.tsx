@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Text, ScrollView } from 'react-native';
+import Animated, { useAnimatedScrollHandler } from 'react-native-reanimated';
 
 import { IEvolutionChain } from '../../models/evolutionChain';
 import { IPokemonSpecies } from '../../models/pokemonSpecies';
@@ -12,11 +13,19 @@ import { theme } from '../../global/styles/theme';
 import { styles } from './styles';
 import axios from 'axios';
 
-const PokemonEvolution = () => {
+interface PokemonEvolutionProps {
+	scrollY: any;
+}
+
+const PokemonEvolution = ({ scrollY }: PokemonEvolutionProps) => {
 	const { pokemon } = usePokemon();
 	const [pokemonSpecies, setPokemonSpecies] = useState({} as IPokemonSpecies);
 	const [evolutionChain, setEvolutionChain] = useState({} as IEvolutionChain);
 	const [loading, setLoading] = useState(false);
+
+	const scrollHandler = useAnimatedScrollHandler((event: any) => {
+		scrollY.value = event.contentOffset.y;
+	});
 
 	const color = theme.colors.types[pokemon.types[0].type.name];
 

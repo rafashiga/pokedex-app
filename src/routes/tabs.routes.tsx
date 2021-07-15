@@ -1,5 +1,6 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Animated from 'react-native-reanimated';
 
 import PokemonAbout from '../screens/PokemonAbout';
 import PokemonStats from '../screens/PokemonStats';
@@ -9,14 +10,18 @@ const { Navigator, Screen } = createMaterialTopTabNavigator();
 
 interface TabsRoutesProps {
 	color: string;
+	scrollY: Animated.SharedValue<number>;
+	tabStyle: any;
 }
 
-export const TabsRoutes = ({ color }: TabsRoutesProps) => {
+export const TabsRoutes = ({ color, scrollY, tabStyle }: TabsRoutesProps) => {
 	return (
 		<Navigator
 			tabBarOptions={{
 				style: {
 					backgroundColor: color,
+					paddingTop: 230,
+					...tabStyle,
 				},
 				labelStyle: {
 					fontSize: 16,
@@ -27,17 +32,17 @@ export const TabsRoutes = ({ color }: TabsRoutesProps) => {
 		>
 			<Screen
 				name='PokemonAbout'
-				component={PokemonAbout}
+				component={() => <PokemonAbout scrollY={scrollY} />}
 				options={{ tabBarLabel: 'About' }}
 			/>
 			<Screen
 				name='PokemonStats'
-				component={PokemonStats}
+				component={() => <PokemonStats scrollY={scrollY} />}
 				options={{ tabBarLabel: 'Stats' }}
 			/>
 			<Screen
 				name='PokemonEvolution'
-				component={PokemonEvolution}
+				component={() => <PokemonEvolution scrollY={scrollY} />}
 				options={{ tabBarLabel: 'Evolution' }}
 			/>
 		</Navigator>
