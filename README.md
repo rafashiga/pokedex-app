@@ -40,3 +40,4 @@
 - [react-native-svg-transformer](https://github.com/kristerkari/react-native-svg-transformer)
 - [Modalize](https://github.com/jeremybarbet/react-native-modalize)
 - [axios](https://github.com/axios/axios)
+- [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/)

@@ -3,14 +3,34 @@ import { theme } from '../../global/styles/theme';
 
 export const styles = StyleSheet.create({
 	container: {
+		position: 'absolute',
+		left: 0,
+		right: 0,
+		overflow: 'hidden',
+		height: 230,
+	},
+	content: {
 		paddingHorizontal: 40,
 		paddingBottom: 10,
-		position: 'relative',
+	},
+	nameWrapper: {
+		marginTop: 50,
+
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	name: {
+		flex: 1,
+		textAlign: 'center',
+		marginLeft: -25,
+		color: '#fff',
+		fontSize: 26,
+		fontWeight: 'bold',
 	},
 	back: {
-		marginTop: 50,
 		width: 25,
 		height: 25,
+		zIndex: 9,
 	},
 	patternBackground: {
 		position: 'absolute',

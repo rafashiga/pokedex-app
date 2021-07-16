@@ -1,19 +1,28 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Text, ScrollView, View } from 'react-native';
-import { types } from '../../utils/types';
+import Animated, { useAnimatedScrollHandler } from 'react-native-reanimated';
 
 import { IPokemonSpecies } from '../../models/pokemonSpecies';
 import { BaseStats } from '../../components';
 import { usePokemon } from '../../hooks/pokemon';
 import { api } from '../../services/api';
+import { types } from '../../utils/types';
 
 import { theme } from '../../global/styles/theme';
 import { styles } from './styles';
 
-const PokemonStats = () => {
+interface PokemonStatsProps {
+	scrollY?: any;
+}
+
+const PokemonStats = ({ scrollY }: PokemonStatsProps) => {
 	const { pokemon } = usePokemon();
 	const [pokemonSpecies, setPokemonSpecies] = useState({} as IPokemonSpecies);
+
+	const scrollHandler = useAnimatedScrollHandler((event: any) => {
+		scrollY.value = event.contentOffset.y;
+	});
 
 	const color = theme.colors.types[pokemon.types[0].type.name];
 
@@ -37,7 +46,9 @@ const PokemonStats = () => {
 	}, []);
 
 	return (
-		<ScrollView
+		<Animated.ScrollView
+			onScroll={scrollHandler}
+			scrollEventThrottle={16}
 			contentContainerStyle={{
 				paddingBottom: 100,
 			}}
@@ -131,9 +142,8 @@ const PokemonStats = () => {
 			</Text>
 			<View style={styles.typeContainer}>
 				{types.map(({ id, icon: Icon, color }) => (
-					<View style={styles.typeContent}>
+					<View key={id} style={styles.typeContent}>
 						<View
-							key={id}
 							style={[
 								styles.iconTypeWrapper,
 								{
@@ -147,7 +157,7 @@ const PokemonStats = () => {
 					</View>
 				))}
 			</View>
-		</ScrollView>
+		</Animated.ScrollView>
 	);
 };
 

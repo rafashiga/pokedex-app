@@ -1,19 +1,28 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { View, FlatList, Text, ScrollView } from 'react-native';
-import { Loading } from '../../components';
-import { theme } from '../../global/styles/theme';
+import { View, Text } from 'react-native';
+import Animated, { useAnimatedScrollHandler } from 'react-native-reanimated';
 
+import { Loading } from '../../components';
 import { usePokemon } from '../../hooks/pokemon';
 import { IPokemonSpecies } from '../../models/pokemonSpecies';
 import { api } from '../../services/api';
 
+import { theme } from '../../global/styles/theme';
 import { styles } from './styles';
 
-const PokemonAbout = () => {
+interface PokemonAboutProps {
+	scrollY: any;
+}
+
+const PokemonAbout = ({ scrollY }: PokemonAboutProps) => {
 	const { pokemon } = usePokemon();
 	const [pokemonSpecies, setPokemonSpecies] = useState({} as IPokemonSpecies);
 	const [loading, setLoading] = useState(true);
+
+	const scrollHandler = useAnimatedScrollHandler((event: any) => {
+		scrollY.value = event.contentOffset.y;
+	});
 
 	const color = theme.colors.types[pokemon.types[0].type.name];
 
@@ -33,7 +42,9 @@ const PokemonAbout = () => {
 	}, []);
 
 	return (
-		<ScrollView
+		<Animated.ScrollView
+			onScroll={scrollHandler}
+			scrollEventThrottle={16}
 			contentContainerStyle={{
 				paddingBottom: 100,
 			}}
@@ -164,7 +175,7 @@ const PokemonAbout = () => {
 					</Text>
 				</>
 			)}
-		</ScrollView>
+		</Animated.ScrollView>
 	);
 };
 
