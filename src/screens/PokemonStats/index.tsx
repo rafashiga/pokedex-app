@@ -13,7 +13,7 @@ import { theme } from '../../global/styles/theme';
 import { styles } from './styles';
 
 interface PokemonStatsProps {
-	scrollY: any;
+	scrollY?: any;
 }
 
 const PokemonStats = ({ scrollY }: PokemonStatsProps) => {

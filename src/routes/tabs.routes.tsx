@@ -15,6 +15,14 @@ interface TabsRoutesProps {
 }
 
 export const TabsRoutes = ({ color, scrollY, tabStyle }: TabsRoutesProps) => {
+	const PokemonAboutComponent = () => <PokemonAbout scrollY={scrollY} />;
+
+	const PokemonStatsComponent = () => <PokemonStats scrollY={scrollY} />;
+
+	const PokemonEvolutionComponent = () => (
+		<PokemonEvolution scrollY={scrollY} />
+	);
+
 	return (
 		<Navigator
 			tabBarOptions={{
@@ -32,17 +40,17 @@ export const TabsRoutes = ({ color, scrollY, tabStyle }: TabsRoutesProps) => {
 		>
 			<Screen
 				name='PokemonAbout'
-				component={() => <PokemonAbout scrollY={scrollY} />}
+				component={PokemonAboutComponent}
 				options={{ tabBarLabel: 'About' }}
 			/>
 			<Screen
 				name='PokemonStats'
-				component={() => <PokemonStats scrollY={scrollY} />}
+				component={PokemonStatsComponent}
 				options={{ tabBarLabel: 'Stats' }}
 			/>
 			<Screen
 				name='PokemonEvolution'
-				component={() => <PokemonEvolution scrollY={scrollY} />}
+				component={PokemonEvolutionComponent}
 				options={{ tabBarLabel: 'Evolution' }}
 			/>
 		</Navigator>
