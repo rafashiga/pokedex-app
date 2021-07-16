@@ -25,7 +25,7 @@
   <h3 align="center">
     Details
   </h3>
-  <img src="./src/assets/screen/details.png">
+  <img src="./src/assets/screen/detail.png">
   <br>
 </p>
 
