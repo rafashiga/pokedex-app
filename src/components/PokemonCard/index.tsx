@@ -49,7 +49,15 @@ export const PokemonCard = ({ data, ...rest }: PokemonCardProps) => {
 	};
 
 	useEffect(() => {
-		getPokemon();
+		let isUnmount = false;
+
+		if (!isUnmount) {
+			getPokemon();
+		}
+
+		return () => {
+			isUnmount = true;
+		};
 	}, []);
 
 	return (

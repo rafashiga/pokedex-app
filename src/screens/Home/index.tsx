@@ -221,7 +221,15 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		getPokemons();
+		let isUnmount = false;
+
+		if (!isUnmount) {
+			getPokemons();
+		}
+
+		return () => {
+			isUnmount = true;
+		};
 	}, []);
 
 	return (
